@@ -11,6 +11,20 @@ public class Enemy : MonoBehaviour
     public float minDist = 1f;
     public float maxdist = 3f;
 
+    public GameObject projectile;
+    public Transform firePoint;
+    Vector3 playerPosition;
+    public GameObject player;
+
+    private Vector3 destination;
+    //private Vector3 player = GameObject.Find("Player");
+
+
+    public float projectileSpeed = 30f;
+    private float timeToFire;
+    public float fireSpeed;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +35,7 @@ public class Enemy : MonoBehaviour
                 target = GameObject.FindWithTag("Player").GetComponent<Transform>();
             }
         }
+        playerPosition = player.transform.position;
     }
 
     // Update is called once per frame
@@ -28,13 +43,48 @@ public class Enemy : MonoBehaviour
     {
         if (target == null)
             return;
-        // face the target
-        transform.LookAt(target);
+        
         //get the distance between the chaser and the target
         float distance = Vector3.Distance(transform.position, target.position);
         //so long as the chaser is further away than the minimum distance, move towards it at rate speed.
         if (distance < minDist && distance > maxdist)
+        {
             transform.position += transform.forward * speed * Time.deltaTime;
+            
+            transform.LookAt(target);
+
+        }
+        if (distance < minDist && distance > maxdist && Time.time >= timeToFire)
+        {
+            timeToFire = Time.time + 1 / fireSpeed;
+            
+            Shoot();
+        }
+
+
+    }
+    void Shoot()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            destination = hit.point;
+        }
+        else
+        {
+            destination = ray.GetPoint(1000);
+        }
+
+        InstantiateProjectile(firePoint);
+
+        void InstantiateProjectile(Transform firePoint)
+        {
+            var projectileObj = Instantiate(projectile, firePoint.position, Quaternion.identity) as GameObject;
+            projectileObj.GetComponent<Rigidbody>().velocity = (destination - firePoint.position).normalized * projectileSpeed;
+        }
     }
     public void SetTarget(Transform newTarget)
     {
