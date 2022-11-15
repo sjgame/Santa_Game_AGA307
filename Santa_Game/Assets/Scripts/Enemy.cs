@@ -43,30 +43,28 @@ public class Enemy : MonoBehaviour
     {
         if (target == null)
             return;
-        
         //get the distance between the chaser and the target
         float distance = Vector3.Distance(transform.position, target.position);
         //so long as the chaser is further away than the minimum distance, move towards it at rate speed.
         if (distance < minDist && distance > maxdist)
-        {
+        {   
             transform.position += transform.forward * speed * Time.deltaTime;
-            
-            transform.LookAt(target);
-
         }
-        if (distance < minDist && distance > maxdist && Time.time >= timeToFire)
+        //If statement for the rotation of the enemy, to look at the player.
+        if (distance < minDist)
+        {
+            transform.LookAt(target);
+        }
+        //If statment for when the enemy can shoot.
+        if (distance < minDist && Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1 / fireSpeed;
-            
             Shoot();
         }
-
-
     }
     void Shoot()
     {
         Ray ray = new Ray(transform.position, transform.forward);
-
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
