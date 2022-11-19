@@ -5,6 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform target;
+    Vector3 direction;
+    Quaternion rotGoal;
+    public float turnSpeed;
 
     public float speed = 20.0f;
 
@@ -53,7 +56,9 @@ public class Enemy : MonoBehaviour
         //If statement for the rotation of the enemy, to look at the player.
         if (distance < minDist)
         {
-            transform.LookAt(target);
+            direction = (target.position - transform.position).normalized;
+            rotGoal = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotGoal, turnSpeed);
         }
         //If statment for when the enemy can shoot.
         if (distance < minDist && Time.time >= timeToFire)
