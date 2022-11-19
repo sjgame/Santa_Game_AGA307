@@ -13,9 +13,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject projectile;
     public Transform firePoint;
-    Vector3 playerPosition;
-    public GameObject player;
-
+    
     private Vector3 destination;
     //private Vector3 player = GameObject.Find("Player");
 
@@ -23,6 +21,8 @@ public class Enemy : MonoBehaviour
     public float projectileSpeed = 30f;
     private float timeToFire;
     public float fireSpeed;
+
+    public float health = 2f;
 
 
     // Start is called before the first frame update
@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
                 target = GameObject.FindWithTag("Player").GetComponent<Transform>();
             }
         }
-        playerPosition = player.transform.position;
+        
     }
 
     // Update is called once per frame
