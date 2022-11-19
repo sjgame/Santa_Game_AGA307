@@ -93,4 +93,17 @@ public class Enemy : MonoBehaviour
     {
         target = newTarget;
     }
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+        if (health <= 0f)
+        {   //If the targets health = 0 destroy it and change the colour of it. 
+            Die();
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
+    public void Die()
+    {
+        Destroy(gameObject, 0.6f);
+    }
 }
