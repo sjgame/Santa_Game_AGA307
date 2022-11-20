@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour
     private Vector3 destination;
     //private Vector3 player = GameObject.Find("Player");
 
-
     public float projectileSpeed = 30f;
     private float timeToFire;
     public float fireSpeed;
@@ -32,10 +31,6 @@ public class Enemy : MonoBehaviour
     public bool isDead;
     public bool soulDropped;
     public GameObject soul;
-
-    
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +44,6 @@ public class Enemy : MonoBehaviour
         isDead = false;
         soulDropped = false;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -75,8 +69,6 @@ public class Enemy : MonoBehaviour
             timeToFire = Time.time + 1 / fireSpeed;
             Shoot();
         }
-
-        
     }
     void Shoot()
     {
