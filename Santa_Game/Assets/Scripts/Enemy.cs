@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -24,8 +26,9 @@ public class Enemy : MonoBehaviour
     public float projectileSpeed = 30f;
     private float timeToFire;
     public float fireSpeed;
-
     public float health = 2f;
+
+    
 
 
     // Start is called before the first frame update
@@ -38,7 +41,6 @@ public class Enemy : MonoBehaviour
                 target = GameObject.FindWithTag("Player").GetComponent<Transform>();
             }
         }
-        
     }
 
     // Update is called once per frame
@@ -105,5 +107,7 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject, 0.6f);
+        
+        
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.UI;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -9,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
 
     public GameObject player;
-    int playerHealh = 10;
+    public int playerHealh = 10;
     float playerSpeed = 12f;
     public float playerJump = 2;
 
@@ -25,10 +26,17 @@ public class PlayerController : MonoBehaviour
     public Camera cam;
     public float damage = 1f;
 
+    public int enemyCount;
+    int totalEnemies;
+    public float enemyChunck;
+    
+    public TMP_Text enemyText;
+
 
     void Start()
     {
-
+        
+       
     }
 
 
@@ -59,10 +67,12 @@ public class PlayerController : MonoBehaviour
         {
             Shoot();
         }
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        totalEnemies = enemyCount;
+        enemyText.text = "Enemies Remaining: " + enemyCount.ToString(); /*+ "/" + totalEnemies.ToString();*/
     }
     void Shoot()
     {
-
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
@@ -80,4 +90,9 @@ public class PlayerController : MonoBehaviour
             enemy.TakeDamage(damage);
         }
     }
+    //public void PlayerDamage(int damageAmount)
+    //{
+    //    playerHealh -= damageAmount;
+    //}
+   
 }
