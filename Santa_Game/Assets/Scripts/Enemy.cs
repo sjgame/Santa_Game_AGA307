@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Diagnostics;
 
 public class Enemy : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class Enemy : MonoBehaviour
     public float fireSpeed;
     public float health = 2f;
 
+    public bool isDead;
+    public bool soulDropped;
+    public GameObject soul;
+
     
 
 
@@ -41,6 +46,8 @@ public class Enemy : MonoBehaviour
                 target = GameObject.FindWithTag("Player").GetComponent<Transform>();
             }
         }
+        isDead = false;
+        soulDropped = false;
     }
 
     // Update is called once per frame
@@ -68,6 +75,8 @@ public class Enemy : MonoBehaviour
             timeToFire = Time.time + 1 / fireSpeed;
             Shoot();
         }
+
+        
     }
     void Shoot()
     {
@@ -106,8 +115,14 @@ public class Enemy : MonoBehaviour
     }
     public void Die()
     {
-        Destroy(gameObject, 0.6f);
+        Destroy(gameObject);
+        isDead = true;
         
-        
+        if (isDead == true && soulDropped == false)
+        {
+            Instantiate(soul, firePoint.position, firePoint.rotation);
+            
+        }
+        soulDropped = true;
     }
 }
