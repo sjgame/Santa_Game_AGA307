@@ -80,6 +80,7 @@ public class Enemy : MonoBehaviour
     }
     void Shoot()
     {
+        //Creates a raycast for the enemy to shoot along.
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
@@ -91,19 +92,21 @@ public class Enemy : MonoBehaviour
         {
             destination = ray.GetPoint(1000);
         }
-
+        //Instantiates the projectile at the set firepoint position.
         InstantiateProjectile(firePoint);
-
+        //Instantiate the set projectile.
         void InstantiateProjectile(Transform firePoint)
         {
             var projectileObj = Instantiate(projectile, firePoint.position, Quaternion.identity) as GameObject;
             projectileObj.GetComponent<Rigidbody>().velocity = (destination - firePoint.position).normalized * projectileSpeed;
         }
     }
+    //Set the target 
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
     }
+    //Enemy take damage
     public void TakeDamage(float amount)
     {
         health -= amount;
@@ -113,11 +116,12 @@ public class Enemy : MonoBehaviour
             GetComponent<Renderer>().material.color = Color.red;
         }
     }
+    //Enemy die
     public void Die()
     {
         Destroy(gameObject);
         isDead = true;
-        
+        //Drop the soul when the enemy dies.
         if (isDead == true && soulDropped == false)
         {
             Instantiate(soul, firePoint.position, firePoint.rotation);

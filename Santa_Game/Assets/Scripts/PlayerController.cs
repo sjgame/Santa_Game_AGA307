@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
@@ -32,11 +33,13 @@ public class PlayerController : MonoBehaviour
     
     public TMP_Text enemyText;
 
+    public Slider healthBarSlider;
+
 
     void Start()
     {
+
         
-       
     }
 
 
@@ -67,6 +70,9 @@ public class PlayerController : MonoBehaviour
         {
             Shoot();
         }
+        
+        healthBarSlider.value = playerHealh;
+
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         totalEnemies = enemyCount;
         enemyText.text = "Enemies Remaining: " + enemyCount.ToString(); /*+ "/" + totalEnemies.ToString();*/
