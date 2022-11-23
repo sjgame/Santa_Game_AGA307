@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
         {
             direction = (target.position - transform.position).normalized;
             rotGoal = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotGoal, turnSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotGoal, turnSpeed * Time.deltaTime);
         }
         //If statment for when the enemy can shoot.
         if (distance < minDist && Time.time >= timeToFire)

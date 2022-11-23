@@ -5505,7 +5505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2108768067}
-  turnSpeed: 0.02
+  turnSpeed: 5.94
   speed: 9.85
   minDist: 34
   maxdist: 6.22
