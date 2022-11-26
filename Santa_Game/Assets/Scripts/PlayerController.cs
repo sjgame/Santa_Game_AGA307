@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     public Slider healthBarSlider;
 
+    public GameObject soul;
+
 
     //void Start()
     //{
@@ -75,6 +77,21 @@ public class PlayerController : MonoBehaviour
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         totalEnemies = enemyCount;
         enemyText.text = "Enemies Remaining: " + enemyCount.ToString(); /*+ "/" + totalEnemies.ToString();*/
+
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (Input.GetKeyDown(KeyCode.E) && hit.collider.CompareTag("Soul"))
+            {
+                print("Hit");
+                Destroy(hit.transform.gameObject);
+                //+1 to the soul counter
+            }
+        }
+
+           
+
     }
     void Shoot()
     {
@@ -95,6 +112,15 @@ public class PlayerController : MonoBehaviour
             enemy.TakeDamage(damage);
         }
     }
+
+    void PickupSoul()
+    {
+        
+
+
+    }
+
+   
     //public void PlayerDamage(int damageAmount)
     //{
     //    playerHealh -= damageAmount;
