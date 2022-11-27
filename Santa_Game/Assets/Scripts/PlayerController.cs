@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     public Slider healthBarSlider;
 
     public GameObject soul;
+    public GameObject particlePrefab;
+    public Transform firePoint;
 
 
     //void Start()
@@ -70,6 +72,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
+            GameObject party = Instantiate(particlePrefab, firePoint.transform.position, firePoint.transform.rotation);
+            Destroy(party, 2f);
         }
         
         healthBarSlider.value = playerHealh;
