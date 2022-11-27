@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, 3))
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.CompareTag("Soul"))
             {
