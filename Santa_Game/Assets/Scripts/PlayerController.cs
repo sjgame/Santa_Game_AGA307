@@ -29,7 +29,11 @@ public class PlayerController : MonoBehaviour
     public int enemyCount;
     int totalEnemies;
     public float enemyChunck;
-    
+
+    int soulCount = 0;
+    int totalSouls;
+    public TMP_Text soulText;
+
     public TMP_Text enemyText;
 
     public Slider healthBarSlider;
@@ -82,6 +86,8 @@ public class PlayerController : MonoBehaviour
         totalEnemies = enemyCount;
         enemyText.text = "Enemies Remaining: " + enemyCount.ToString(); /*+ "/" + totalEnemies.ToString();*/
 
+        soulText.text = "X" + soulCount;
+
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 3))
@@ -90,6 +96,7 @@ public class PlayerController : MonoBehaviour
             {
                 print("Hit");
                 Destroy(hit.transform.gameObject);
+                soulCount += 1;
                 //+1 to the soul counter
             }
         }
