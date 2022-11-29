@@ -42,16 +42,16 @@ public class PlayerController : MonoBehaviour
     public GameObject particlePrefab;
     public Transform firePoint;
 
-
-    //void Start()
-    //{
-
-        
-    //}
-
-
+    private float timeToFire;
+    public float fireSpeed;
+    //Animator gunAnim;
+    void Start()
+    {
+        //gunAnim = GetComponent<Animator>();
+    }
     void Update()
     {
+        //Player Movement 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
@@ -66,26 +66,27 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            
             velocity.y = Mathf.Sqrt(playerJump * -2f * gravity);
         }
 
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-
-        if (Input.GetButtonDown("Fire1"))
+        
+        //Shoot Gun
+        if (Input.GetButtonDown("Fire1") && Time.time >= timeToFire)
         {
+            timeToFire = Time.time + 1 / fireSpeed;
             Shoot();
+            //gunAnim.SetTrigger("Shoot");
             GameObject party = Instantiate(particlePrefab, firePoint.transform.position, firePoint.transform.rotation);
             Destroy(party, 2f);
         }
-        
         healthBarSlider.value = playerHealh;
-
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         totalEnemies = enemyCount;
         enemyText.text = "Enemies Remaining: " + enemyCount.ToString(); /*+ "/" + totalEnemies.ToString();*/
-
         soulText.text = "X" + soulCount;
 
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -100,9 +101,6 @@ public class PlayerController : MonoBehaviour
                 //+1 to the soul counter
             }
         }
-
-           
-
     }
     void Shoot()
     {
@@ -123,18 +121,4 @@ public class PlayerController : MonoBehaviour
             enemy.TakeDamage(damage);
         }
     }
-
-    void PickupSoul()
-    {
-        
-
-
-    }
-
-   
-    //public void PlayerDamage(int damageAmount)
-    //{
-    //    playerHealh -= damageAmount;
-    //}
-   
 }
