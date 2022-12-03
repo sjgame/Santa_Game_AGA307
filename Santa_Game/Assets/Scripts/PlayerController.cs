@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
     private float timeToFire;
     public float fireSpeed;
+
+    public Animator iceAnim;
     //Animator gunAnim;
     void Start()
     {
@@ -99,6 +101,11 @@ public class PlayerController : MonoBehaviour
                 Destroy(hit.transform.gameObject);
                 soulCount += 1;
                 //+1 to the soul counter
+            }
+            if (hit.collider.CompareTag("Ice") && Input.GetKeyDown(KeyCode.E) && soulCount >= 5)
+            {
+                print("Ice");
+                iceAnim.SetTrigger("IceDrop");
             }
         }
     }
