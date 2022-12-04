@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Soul
   - Ice
+  - Trigger1
   layers:
   - Default
   - TransparentFX
