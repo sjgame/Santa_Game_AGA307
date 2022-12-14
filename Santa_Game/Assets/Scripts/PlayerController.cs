@@ -44,12 +44,20 @@ public class PlayerController : MonoBehaviour
 
     private float timeToFire;
     public float fireSpeed;
+    
+    public GameObject floatingTextPrefab;
+    public GameObject tali;
+    public GameObject tali2;
+    public GameObject taliActor;
+    public bool destroyTali;
 
     public Animator iceAnim;
     //Animator gunAnim;
     void Start()
     {
         //gunAnim = GetComponent<Animator>();
+        floatingTextPrefab.SetActive(false);
+        destroyTali = (false);
     }
     void Update()
     {
@@ -104,9 +112,29 @@ public class PlayerController : MonoBehaviour
             }
             if (hit.collider.CompareTag("Ice") && Input.GetKeyDown(KeyCode.E) && soulCount >= 5)
             {
-                print("Ice");
+                //print("Ice");
                 iceAnim.SetTrigger("IceDrop");
             }
+            if (hit.collider.CompareTag("Tali") && destroyTali == false)
+            {
+                
+                floatingTextPrefab.SetActive(true);
+                //print("hit");
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    //tali.GetComponent<Animator>().enabled = false;
+                    //tali2.GetComponent<Animator>().enabled = false;
+                    
+                    Destroy(tali, 2f);
+                    destroyTali = true;
+                    floatingTextPrefab.SetActive(false);
+                }
+            }
+            else
+            {
+                floatingTextPrefab.SetActive(false);
+            }
+            
         }
     }
     void Shoot()
@@ -128,4 +156,5 @@ public class PlayerController : MonoBehaviour
             enemy.TakeDamage(damage);
         }
     }
+    
 }
