@@ -11,6 +11,9 @@ TagManager:
   - Ice
   - Trigger1
   - Tali
+  - Gun
+  - Snow
+  - Firepoint
   layers:
   - Default
   - TransparentFX
@@ -18,7 +21,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 

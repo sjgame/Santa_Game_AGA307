@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public GameObject soul;
     public GameObject particlePrefab;
     public Transform firePoint;
+    public Transform firePoint2;
 
     private float timeToFire;
     public float fireSpeed;
@@ -50,14 +51,25 @@ public class PlayerController : MonoBehaviour
     public GameObject tali2;
     public GameObject taliActor;
     public bool destroyTali;
+    public GameObject taliParticles;
+    public GameObject emitter;
+
+    public GameObject handGun;
+    bool canShoot;
+
+    public GameObject projectile;
+    public float projectileSpeed;
 
     public Animator iceAnim;
+    public AudioSource gunShot;
     //Animator gunAnim;
     void Start()
     {
         //gunAnim = GetComponent<Animator>();
         floatingTextPrefab.SetActive(false);
         destroyTali = (false);
+        handGun.SetActive(false);
+        canShoot = false;
     }
     void Update()
     {
@@ -83,15 +95,28 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-        
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            
+            InstantiateProjectile(firePoint2);
+        }
+        void InstantiateProjectile(Transform firePoint2)
+        {
+            var projectileObj = Instantiate(projectile, firePoint2.position, Quaternion.identity) as GameObject;
+            projectileObj.GetComponent<Rigidbody>().velocity = (destination - firePoint2.position).normalized * projectileSpeed;
+        }
+
         //Shoot Gun
-        if (Input.GetButtonDown("Fire1") && Time.time >= timeToFire)
+        if (Input.GetButtonDown("Fire1") && Time.time >= timeToFire && canShoot == true)
         {
             timeToFire = Time.time + 1 / fireSpeed;
+            gunShot.Play();
             Shoot();
             //gunAnim.SetTrigger("Shoot");
             GameObject party = Instantiate(particlePrefab, firePoint.transform.position, firePoint.transform.rotation);
             Destroy(party, 2f);
+            
         }
         healthBarSlider.value = playerHealh;
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
@@ -126,6 +151,7 @@ public class PlayerController : MonoBehaviour
                     //tali2.GetComponent<Animator>().enabled = false;
                     
                     Destroy(tali, 2f);
+                    Instantiate(taliParticles, tali.transform.position, emitter.transform.rotation);
                     destroyTali = true;
                     floatingTextPrefab.SetActive(false);
                 }
@@ -134,7 +160,17 @@ public class PlayerController : MonoBehaviour
             {
                 floatingTextPrefab.SetActive(false);
             }
-            
+            if (hit.collider.CompareTag("Gun"))
+            {
+                print("hit");
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Destroy(hit.transform.gameObject);
+                    handGun.SetActive(true);
+                    canShoot = true;
+                }
+            }
+
         }
     }
     void Shoot()
